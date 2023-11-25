@@ -14,5 +14,9 @@ if [ $# -lt 2 ] ; then
 	exit 1
 fi
 
-echo "Searching $FILEDIR for $SEARCHSTR"
+#echo "Searching $FILEDIR for $SEARCHSTR"
 
+Y=$(grep -r $SEARCHSTR $FILEDIR/* | wc -l)
+X=$(find $FILEDIR -type f | wc -l)
+
+echo "The number of files are $X and the number of matching lines are $Y"
