@@ -3,6 +3,7 @@
 #check if the correct number of inputs were given
 if [ $# -lt 2 ] ; then
 	echo "Path and content requried"
+	exit 1
 fi
 
 
