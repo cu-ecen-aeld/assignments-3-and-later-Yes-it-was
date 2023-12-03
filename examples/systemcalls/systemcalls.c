@@ -16,8 +16,10 @@ bool do_system(const char *cmd)
  *   and return a boolean true if the system() call completed with success
  *   or false() if it returned a failure
 */
-
-    return true;
+	int code = system(cmd); 
+	if(code != 0)
+		return false; 
+	return true;
 }
 
 /**
