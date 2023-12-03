@@ -65,7 +65,7 @@ bool do_exec(int count, ...)
 	
 	fflush(stdout); 
     	if(fork()==0) 
-    		execv(command[0],command+1); 
+    		execv(command[0],command); 
     	va_end(args);
 
     	return true;
@@ -102,7 +102,7 @@ bool do_exec_redirect(const char *outputfile, int count, ...)
     	fflush(stdout); 
     	if(fork()==0){
 		freopen(outputfile,"w",stdout);
-		execv(command[0],command+1); 
+		execv(command[0],command); 
 	}
 
     va_end(args);
