@@ -63,7 +63,8 @@ bool do_exec(int count, ...)
  *
 */
 
-    execv(command[0],command+1); 
+    if(fork()==0) 
+    	execv(command[0],command+1); 
     va_end(args);
 
     return true;
