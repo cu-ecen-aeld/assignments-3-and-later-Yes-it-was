@@ -1,4 +1,5 @@
 #include "systemcalls.h"
+#include <stdlib.h>
 
 /**
  * @param cmd the command to execute with system()
@@ -61,6 +62,7 @@ bool do_exec(int count, ...)
  *
 */
 
+    execv(command[0],command+1); 
     va_end(args);
 
     return true;
