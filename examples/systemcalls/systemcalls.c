@@ -62,12 +62,13 @@ bool do_exec(int count, ...)
  *   as second argument to the execv() command.
  *
 */
+	
+	fflush(stdout); 
+    	if(fork()==0) 
+    		execv(command[0],command+1); 
+    	va_end(args);
 
-    if(fork()==0) 
-    	execv(command[0],command+1); 
-    va_end(args);
-
-    return true;
+    	return true;
 }
 
 /**
@@ -98,6 +99,11 @@ bool do_exec_redirect(const char *outputfile, int count, ...)
  *   The rest of the behaviour is same as do_exec()
  *
 */
+    	fflush(stdout); 
+    	if(fork()==0){
+		freopen(outputfile,"w",stdout);
+		execv(command[0],command+1); 
+	}
 
     va_end(args);
 
