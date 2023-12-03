@@ -1,6 +1,7 @@
 #include "systemcalls.h"
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/wait.h>
 
 /**
  * @param cmd the command to execute with system()
@@ -61,11 +62,20 @@ bool do_exec(int count, ...)
  *   (first argument to execv), and use the remaining arguments
  *   as second argument to the execv() command.
  *
-*/
+*/ 
+    fflush(stdout); 
+    if(fork()==0){
+		//freopen(outputfile,"w",stdout);
+		if(execv(command[0],command)==-1)
+			return false;
+	}
+
+	int code = -1; 
+	if(wait(&code)==-1)
+		return false; 
+	if(code != 0)
+		return false; 
 	
-	fflush(stdout); 
-    	if(fork()==0) 
-    		execv(command[0],command); 
     	va_end(args);
 
     	return true;
@@ -99,11 +109,18 @@ bool do_exec_redirect(const char *outputfile, int count, ...)
  *   The rest of the behaviour is same as do_exec()
  *
 */
-    	fflush(stdout); 
-    	if(fork()==0){
+    fflush(stdout); 
+    if(fork()==0){
 		freopen(outputfile,"w",stdout);
-		execv(command[0],command); 
+		if(execv(command[0],command)==-1)
+			return false;
 	}
+
+	int code = -1; 
+	if(wait(&code)==-1)
+		return false; 
+	if(code != 0)
+		return false; 
 
     va_end(args);
 
