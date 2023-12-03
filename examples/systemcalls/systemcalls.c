@@ -63,11 +63,11 @@ bool do_exec(int count, ...)
  *   as second argument to the execv() command.
  *
 */ 
-    fflush(stdout); 
-    if(fork()==0){
+	fflush(stdout); 
+    	if(fork()==0){
 		//freopen(outputfile,"w",stdout);
 		if(execv(command[0],command)==-1)
-			return false;
+			return -1;
 	}
 
 	int code = -1; 
@@ -113,7 +113,7 @@ bool do_exec_redirect(const char *outputfile, int count, ...)
     if(fork()==0){
 		freopen(outputfile,"w",stdout);
 		if(execv(command[0],command)==-1)
-			return false;
+			return -1;
 	}
 
 	int code = -1; 
