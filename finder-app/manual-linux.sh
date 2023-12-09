@@ -77,17 +77,37 @@ git clone git://busybox.net/busybox.git
     cd busybox
     git checkout ${BUSYBOX_VERSION}
     # TODO:  Configure busybox
+    #make distclean
+    #make defconfig
+    #configuring here means the config process won't redone as long as the git clone worked, so I done it in the next section. 
 else
     cd busybox
 fi
 
 # TODO: Make and install busybox
+make distclean
+make defconfig
+#Build
+make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE}
+#create symlinks 
+make CONFIG_PREFIX=${OUTDIR} ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} install
+#go back to root
+cd ${OUTDIR}
+
 
 echo "Library dependencies"
 ${CROSS_COMPILE}readelf -a bin/busybox | grep "program interpreter"
 ${CROSS_COMPILE}readelf -a bin/busybox | grep "Shared library"
 
 # TODO: Add library dependencies to rootfs
+LIBC=$(aarch64-none-linux-gnu-gcc -print-sysroot -v)
+#echo The value of libc is $LIBC
+cp $LIBC/lib64/libm.so.6 lib64/libm.so.6
+cp $LIBC/lib64/libresolv.so.2 lib64/libresolv.so.2
+cp $LIBC/lib64/libc.so.6 lib64/libc.so.6
+
+cp $LIBC/lib/ld-linux-aarch64.so.1 lib/ld-linux-aarch64.so.1
+
 
 # TODO: Make device nodes
 
