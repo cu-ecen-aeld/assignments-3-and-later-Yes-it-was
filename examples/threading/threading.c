@@ -14,6 +14,26 @@ void* threadfunc(void* thread_param)
     // TODO: wait, obtain mutex, wait, release mutex as described by thread_data structure
     // hint: use a cast like the one below to obtain thread arguments from your parameter
     //struct thread_data* thread_func_args = (struct thread_data *) thread_param;
+    
+	struct thread_data* args = (struct thread_data *)thread_param;
+	usleep(args->wait_to_obtain_ms * 1000);
+	DEBUG_LOG("Trying to obtain lock"); 
+	while(pthread_mutex_trylock(args->mutex) != 0);
+	DEBUG_LOG("Lock obtained"); 
+	usleep(args->wait_to_release_ms * 1000);
+	DEBUG_LOG("Trying to release lock"); 
+	if(pthread_mutex_unlock(args->mutex) != 0){
+		DEBUG_LOG("There was an error releasing lock"); 
+		args->thread_complete_success = false;
+	} else {
+		DEBUG_LOG("lock released"); 
+		args->thread_complete_success = true;
+	}
+
+
+	
+
+
     return thread_param;
 }
 
