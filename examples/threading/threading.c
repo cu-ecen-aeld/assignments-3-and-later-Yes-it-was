@@ -48,6 +48,18 @@ bool start_thread_obtaining_mutex(pthread_t *thread, pthread_mutex_t *mutex,int 
      *
      * See implementation details in threading.h file comment block
      */
+
+	struct thread_data* handle = malloc(sizeof(struct thread_data));
+	if(handle == NULL){
+		DEBUG_LOG("No heap memory"); 
+		return false;
+	}
+	handle->wait_to_obtain_ms = wait_to_obtain_ms; 
+	handle->wait_to_release_ms = wait_to_release_ms;
+	handle->mutex = mutex; 
+
+	if(pthread_create(thread,NULL,threadfunc,handle)==0)
+		return true; 
+
     return false;
 }
-
