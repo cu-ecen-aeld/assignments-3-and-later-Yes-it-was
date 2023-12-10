@@ -43,7 +43,7 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
     make ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- defconfig
 
     #make kernal 
-    make -j4 ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- all
+    make -j8 ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- all
 
     #make modules 
     make ARCH=arm64 CROSS_COMPILE=aarch64-none-linux-gnu- modules
@@ -127,7 +127,13 @@ make CROSS_COMPILE=$CROSS_COMPILE writer
 
 # TODO: Copy the finder related scripts and executables to the /home directory
 # on the target rootfs
-cp build/writer $OUTDIR/rootfs/home
+cp build/writer $OUTDIR/rootfs/home/writer
+cp finder-test.sh $OUTDIR/rootfs/home/finder-test.sh
+cp finder.sh $OUTDIR/rootfs/home/finder.sh
+mkdir -p $OUTDIR/rootfs/home/conf
+cp conf/assignment.txt $OUTDIR/rootfs/home/conf/assignment.txt
+cp conf/username.txt $OUTDIR/rootfs/home/conf/username.txt
+cp autorun-qemu.sh $OUTDIR/rootfs/home/autorun-qemu.sh
 
 
 # TODO: Chown the root directory
