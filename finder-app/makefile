@@ -11,7 +11,7 @@ build_dir:
 	mkdir -p build
 
 clean: 
-	rm -r build
+	rm -r -f build
 
 writer: writer.c | build_dir 
 	$(CC) writer.c $(CFLAGS) -o build/writer
