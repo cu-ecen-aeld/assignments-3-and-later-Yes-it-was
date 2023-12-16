@@ -7,6 +7,9 @@ endif
 CFLAGS = -O2 -Wall
 
 
+all: writer
+
+
 build_dir: 
 	mkdir -p build
 
